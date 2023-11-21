@@ -7,6 +7,7 @@ class FirestoreServices {
 
   Future<void> addUser(User user) async {
     return await usersCollection.add(user.toMap())
+        .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }
 
