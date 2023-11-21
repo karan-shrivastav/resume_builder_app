@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resume_builder_app/screens/create_resume_screen.dart';
-import 'package:resume_builder_app/serivices/firestore_services.dart';
+import 'package:resume_builder_app/screens/resume_screen.dart';
+import 'package:resume_builder_app/services/firestore_services.dart';
+import 'package:resume_builder_app/widgets/update_dialog.dart';
 import 'models/resume_model.dart';
 
 void main() async {
@@ -16,7 +19,7 @@ void main() async {
           projectId: 'resumebuilderapp-e2d2e',
         ))
       : await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,15 +38,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage> {
   final FirestoreServices _firestoreService = FirestoreServices();
 
   @override
@@ -72,12 +75,110 @@ class _MyHomePageState extends State<MyHomePage> {
           } else {
             List<ResumeModel> users = snapshot.data!;
             return ListView.builder(
+              padding: const EdgeInsets.all(10),
               itemCount: users.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(users[index].name ?? ''),
-                  subtitle: Text(users[index].email ?? ''),
-                  // Additional UI elements as per your model
+                //ref.read(dataProvider.notifier).setId(users.length + 1);
+                print(users.length);
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResumeScreen(
+                            name: users[index].name ?? '',
+                            email: users[index].email ?? '',
+                            age: users[index].age,
+                            contact: users[index].contactNumber ?? '',
+                            skills: users[index].skills ?? '',
+                            programmingLanguages:
+                                users[index].programmingLanguages ?? '',
+                            projects: users[index].projects ?? '',
+                            currentCompany: users[index].currentCompany ?? '',
+                            pgCollegeName: users[index].pgCollegeName ?? '',
+                            pgCollegeStartYear:
+                                users[index].pgCollegeStartYear ?? '',
+                            pgCollegeEndYear:
+                                users[index].pgCollegeEndYear ?? '',
+                            graduationCollegeName:
+                                users[index].graduationCollegeName ?? '',
+                            graduationCollegeStartYear:
+                                users[index].graduationStartYear ?? '',
+                            graduationCollegeEndYear:
+                                users[index].graduationEndYear ?? '',
+                            interMediateCollegeName:
+                                users[index].interMediateCollegeName ?? '',
+                            interMediateCollegeStartYear:
+                                users[index].interMediateStartYear ?? '',
+                            interMediateCollegeEndYear:
+                                users[index].interMediateEndYear ?? '',
+                            highSchoolCollegeName:
+                                users[index].highSchoolCollegeName ?? '',
+                            highSchoolCollegeStartYear:
+                                users[index].highSchoolStartYear ?? '',
+                            highSchoolCollegeEndYear:
+                                users[index].highSchoolEndYear ?? '',
+                          ),
+                        ));
+                  },
+                  child: Card(
+                    child: ListTile(
+                      title: Text(users[index].name ?? ''),
+                      subtitle: Text(users[index].email ?? ''),
+                      trailing: InkWell(
+                          onTap: () {
+                            showDialog<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return UpdateDilaog(
+                                    id : '1a2d7b00-a5ff-1db3-b70f-3138758cb2d1',
+
+                                   // id: users[index].id ?? '',
+                                    name: users[index].name ?? '',
+                                    email: users[index].email ?? '',
+                                    age: users[index].age,
+                                    contact: users[index].contactNumber ?? '',
+                                    skills: users[index].skills ?? '',
+                                    programmingLanguages:
+                                        users[index].programmingLanguages ?? '',
+                                    projects: users[index].projects ?? '',
+                                    currentCompany:
+                                        users[index].currentCompany ?? '',
+                                    pgCollegeName:
+                                        users[index].pgCollegeName ?? '',
+                                    pgCollegeStartYear:
+                                        users[index].pgCollegeStartYear ?? '',
+                                    pgCollegeEndYear:
+                                        users[index].pgCollegeEndYear ?? '',
+                                    graduationCollegeName:
+                                        users[index].graduationCollegeName ??
+                                            '',
+                                    graduationCollegeStartYear:
+                                        users[index].graduationStartYear ?? '',
+                                    graduationCollegeEndYear:
+                                        users[index].graduationEndYear ?? '',
+                                    interMediateCollegeName:
+                                        users[index].interMediateCollegeName ??
+                                            '',
+                                    interMediateCollegeStartYear:
+                                        users[index].interMediateStartYear ??
+                                            '',
+                                    interMediateCollegeEndYear:
+                                        users[index].interMediateEndYear ?? '',
+                                    highSchoolCollegeName:
+                                        users[index].highSchoolCollegeName ??
+                                            '',
+                                    highSchoolCollegeStartYear:
+                                        users[index].highSchoolStartYear ?? '',
+                                    highSchoolCollegeEndYear:
+                                        users[index].highSchoolEndYear ?? '',
+                                  );
+                                });
+                          },
+                          child: Icon(Icons.edit)),
+                      // Additional UI elements as per your model
+                    ),
+                  ),
                 );
               },
             );

@@ -6,54 +6,54 @@ import 'package:resume_builder_app/services/firestore_services.dart';
 import 'package:resume_builder_app/widgets/defaut_textfield_widget.dart';
 import 'package:uuid/uuid.dart';
 
-class CreateResumeScreen extends ConsumerStatefulWidget {
-  const CreateResumeScreen({super.key});
+class UpdateResumeScreen extends ConsumerStatefulWidget {
+  const UpdateResumeScreen({super.key});
 
   @override
-  ConsumerState<CreateResumeScreen> createState() => _CreateResumeScreenState();
+  ConsumerState<UpdateResumeScreen> createState() => _UpdateResumeScreenState();
 }
 
-class _CreateResumeScreenState extends ConsumerState<CreateResumeScreen> {
+class _UpdateResumeScreenState extends ConsumerState<UpdateResumeScreen> {
   String id = const Uuid().v1();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _programmingLanguagesController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _skillsController = TextEditingController();
   final TextEditingController _projectsController = TextEditingController();
   final TextEditingController _currentCompanyController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _pgCollegeNameController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _pgCollegeStartYearController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _pgCollegeEndYearController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _graduationCollegeNameController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _graduationStartYearController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _graduationEndYearController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _interMediateCollegeNameController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _interMediateStartYearController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _interMediateEndYearController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _highSchoolCollegeNameController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _highSchoolStartYearController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _highSchoolEndYearController =
-      TextEditingController();
+  TextEditingController();
 
   void addResume() {
     ResumeModel newResume = ResumeModel(
-      id: id,
-     // id: '${ref.watch(dataProvider.notifier).getid}',
+      // id: id,
+      id: '${ref.watch(dataProvider.notifier).getid}',
       name: _nameController.text,
       email: _emailController.text,
       age: int.parse(_ageController.text),

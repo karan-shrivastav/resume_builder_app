@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:resume_builder_app/models/resume_model.dart';
+import 'package:uuid/uuid.dart';
 
 class FirestoreServices {
+
+
+
   final CollectionReference usersCollection =
   FirebaseFirestore.instance.collection('users');
 
@@ -19,4 +23,25 @@ class FirestoreServices {
       }).toList();
     });
   }
+
+  Future<void> updateUser(String userId, Map<String, dynamic> newData) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(userId).update(newData);
+      print('User updated successfully');
+    } catch (e) {
+      print('Error updating user: $e');
+    }
+  }
+
+  Future<void> deleteUserById(String documentId) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(documentId).delete();
+      print('Document deleted successfully: $documentId');
+    } catch (e, stackTrace) {
+      print('Error deleting document: $e');
+      print('Stack Trace: $stackTrace');
+    }
+  }
+
+
 }

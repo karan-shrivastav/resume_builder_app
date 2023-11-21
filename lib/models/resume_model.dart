@@ -1,4 +1,5 @@
 class ResumeModel {
+  final String? id;
   final String? name;
   final String? email;
   final int? age;
@@ -21,6 +22,7 @@ class ResumeModel {
   final String? highSchoolEndYear;
 
   ResumeModel({
+    this.id,
     this.name,
     this.email,
     this.age,
@@ -45,6 +47,7 @@ class ResumeModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'email': email,
       'age': age,
@@ -71,6 +74,7 @@ class ResumeModel {
 
   factory ResumeModel.fromMap(Map<String, dynamic> map) {
     return ResumeModel(
+      id: map['id'],
       name: map['name'],
       email: map['email'],
       age: map['age'],
