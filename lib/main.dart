@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:resume_builder_app/screens/create_resume_screen.dart';
 import 'package:resume_builder_app/serivices/firestore_services.dart';
-import 'models/user_model.dart';
+import 'models/resume_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -51,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: StreamBuilder<List<User>>(
+      body: StreamBuilder<List<ResumeModel>>(
         stream: _firestoreService.getUsers(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -68,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Error: ${snapshot.error}'),
             );
           } else {
-            List<User> users = snapshot.data!;
+            List<ResumeModel> users = snapshot.data!;
             return ListView.builder(
               itemCount: users.length,
               itemBuilder: (context, index) {
@@ -83,7 +85,12 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateResumeScreen()),
+          );
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
